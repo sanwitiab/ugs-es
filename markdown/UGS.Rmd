@@ -1,0 +1,623 @@
+---
+title: "A Framework for Assessing Supply-Demand Mismatches in Urban Green Space"
+author: "Sanwit Iabchoon"
+author: "Shenghui Cui"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  pdf_document: 
+    latex_engine: xelatex
+    fig_height: 5
+    fig_caption: true
+    df_print: kable
+    number_sections: true
+    extra_dependencies: "subfig"
+  html_document:
+    df_print: paged
+  word_document: default
+bibliography: references.bib
+csl: "ecological-indicators.csl"
+abstract: Urban green space
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      cache = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+options(tinytex.verbose = TRUE)
+library()
+```
+
+# Introduction
+
+Rapid urbanization has led to significant environmental degradation, landscape fragmentation, and imbalances in urban ecosystems [@zhang2019]. Concurrently, there have been observed and projected increases in the frequency and intensity of extreme weather events and climate change [@summary2014]. Consequently, urban planning and research are at the forefront of addressing these challenges globally. For example, studies have examined critical issues such as urban surface water flooding [@maragno2018; @li2020; @lu2022], urban heat island effects [@vieilledent2018; @zullo2019; @rao2021], air quality management [@jim2008; @demanuel2021], and biodiversity conservation [@gao2021]. These investigations underscore the importance of integrating sustainable practices into urban development to mitigate these pressing environmental concerns. In addition, the concept of developing urban green space planning has emerged as a means to support sustainable development goals in both urban and peri-urban areas [@lourdes2022; @zhang2023]. Urban green spaces (UGS) serve as a key component in urban planning strategies, aiming to enhance urban resilience and promote human well-being [@su2019; @wang2019; @li2020; @ronchi2020]. Reviews by @charoenkit2019 highlight the multi-functional role of UGS in providing ecosystem services (ES). These include heat mitigation [@estoque2017], air purification [@guo2019 @cai2020], flood prevention [@eaton2018], and recreation opportunities [@liu2020]. These services are facilitated through ecosystem properties such as vegetation structure and composition [@graca2018; @wu2023] and UGS provide different ES supply depends on structure, composition, and management [@vieira2018].
+
+Lately, the concept of nature-based solutions is one strategy referring to "actions that are inspired by, supported by, or copied from nature designed to address a range of environmental challenges" [@ronchi2020]. The European Commission formally adopted the Green Infrastructure (GI) strategy in 2013 [@su2019]. GI as a "strategically planned network of natural and semi-natural areas with other environmental features designed and managed to deliver a wide range of ecosystem services". In China, based on the Urban Land Classification and Construction Land Planning Standards, as well as the Classification Standards for Urban Green Space, green spaces in urban areas are classified into two main types: non-construction land and construction land. The former category focuses on green spaces outside urban areas, specifically regional green land. The latter is further subdivided into two distinct groups: 1) green and square land, and 2) attached green land [@zhou2021]. The first category is controlled by laws and regulations, which mandate that urban areas must provide green or square land to support human well-being and environmental protection. In contrast, the second category represents green areas within specific land uses, such as residential zones, public service facilities, manufacturing areas, and street or transportation land.
+
+Currently, effective urban land use planning necessitates the integration of multidimensional aspects, including ecological, socio-cultural, and economic factors. Furthermore, ES supply-demand mapping has been widely employed to quantify mismatches in these systems. Several studies have applied the ecosystem services cascade to quantify the supply and demand of ES [@baro2015; @zwierzchowska2018]. @graca2017 proposed a framework aiming to quantify the correlation between urban forest structure and socioeconomic variables. This framework seeks to identify optimal locations for targeted tree planting in areas where ES proficiency requires reinforcement, thereby addressing inequities in ES delivery. While ES supply estimate the flow of an ES actually used or delivery, ES demand indicators express the amount of regulation needed in relation to the standard [@baro2015]. Mapping ES supply by UGS as a tools for sustainable planning of green space [@pulighe2016]. Moreover, ES may vary from inner city to urban peri-urban areas with potential mismatches between supply and demand. @baro2015 assessed mismatched between ES supply and demand in urban areas and concluded can be provided insight for enhancing human well-being in cities. In addition, ES assessments facilitate the transition from conventional planning to flexible, site-specific, performance-based methods [@ronchi2020]. Recently, the mismatch evaluation between UGS supply and demand has been promoted as a tools to support management and policy implementation of urban planning [@burkhard2014; @baro2015; @graca2017; @xiao2020; @guo2022; @lin2022; @demanuel2021]. Mismatch of supply-demand assessment were vary from simple to complex calculation. In @burkhard2012 proposed a supply–demand subtraction method is suggested to represent the “budget” of each ES per land cover. Several scholar adopted and developed model to evaluated supply and demand mismatch. For example, disparity index [@liu2020], Physical coupling coordination model [@xin2021], and grading system [@zhou2021]. Additionally, some study will add weighting score by expert knowledge for more relevant with study area context [@vanoorschot2021]. However, spatial overlay analysis with direct normalization or ranking of the spatial distribution of supply–demand for different units is not convincing or practical for guiding resource allocation [@wei2024]. Therefore, bivariate local Moran's I is a widely used to detect the spatial relationships of two variables [@hu2020]. These method not only can help to reflect the correlation and spatial aggregation between the attribute values of one spatial unit and the same attribute values of its neighboring spatial units, but also prioritize actions for urban green space planning by provided information for both urban planner and urban dweller. Understanding of relationship between supply and demand can help us to coordinate natural ecological resources and socio-economic development, and promote sustainable urban development [@li2023]. However, most of study just show the mismatch of supply - demand of ES by UGS. Few study demonstrated the drivers or factors effect to supply - demand mismatch.
+
+Thus, this study aims to develop a standardized framework to quantify ES supply-demand mismatches in UGS and apply it to Xiamen city as a proof-of-concept for high-density cities. We adapted framework proposed by @wang2023 with composite indicators that combines the ecological, biophysical, and societal aspect of UGS supply and demand of ES in urban areas. Based on objective two research questions 1) How do supply and demand of key ecosystem services (ES) from UGS vary spatially in Xiamen City? 2) What is the driving factors of mismatches of supply-demand of UGS? 3) Where should urban planning prioritize UGS interventions to address the largest ES gaps in Xiamen?.
+
+# Material and method
+
+To quantified mismatch of urban green space ecosystem services supply - demand we constructed the 4 main steps. Firstly, selected of ES of urban green space based on background of study areas and available of data. Second, mapping both demand and supply of ES. Thirdly, evaluate of supply - demand mismatch to priority areas intervention both separate and comprehensive supply - demand. Finally, applied correlation analysis to represent factor influence to supply - demand mismatch. We used QGIS version 3.34.11 for spatial data pre-processing and R Statistical Software R-base version 4.4.3 [@R-base] for data processing and analysis. A detail data preparation and analysis can be found in Appendix A.
+
+## Study areas and data used
+
+Xiamen City located in southeast coastal of China and belong to Fujian province. The city cover area 1699.39 km^2^ composed of two part Xiamen mainland and Xiamen island. Xiamen landform consists of high mountains (15.6%),low hills (62.5%), plain (14.0%), and tidal flat (7.9%) [@tang2013]. Figure \ref{fig:fig-study} show administrative divided into 6 district Haicang, Huli, Jimei, Siming, Tong'An, and Xiang'An. Xiamen are in subtropical monsoon climate, characterized by long, hot and humid summers, and shorts, mild and dry winter. The annual average temperature is approximate 21 $^{\circ }C$ and annual average precipitation is 1100 mm [@zhao2019]. Xiamen were promote as "Beautiful Xiamen" program by government master plan (2010 - 2020) aim to building a garden city that has "resources conservation" and is "eco-friendly". Moreover, Xiamen city also the one of the first pilot cities to promote "low carbon pilot cities" lunched in 2010 [@wang2013]. Recently, Xiamen municipal applied "ecological garden city" program aims to promote green space per capita (\~11 m^2^), green space rate in built-up areas, and service radius average of urban park. Based on the Urban Land Classification and Construction Land Planning Standards and Classification Standards for Urban Green Space [@zhou2021a]. Green and square land including park land, protective green space, and square land are the main focus in urban areas. Among of them, park land divided into comprehensive park, community parks, specialized purposed, and garden. This study area consists of Xiamen island (Huli and Siming) and some part of Xiamen mainland that identifies as the built-up areas (Fig. \ref{fig:fig-study}) according to Xiamen master planning and represent urban landscape.
+
+```{r fig-study, echo=FALSE, fig.align='center', fig.cap="Xiamen City", fig.dpi=300, message=FALSE, warning=FALSE}
+source("E:/ES_Demand_Supply/code/xiamen_study_areas.R")
+```
+
+All datasets used in this study were show in Table \ref{tab:dataused}. We applied multiple official data and open data both vector and raster datasets with multi-scale to quantify supply and demand of ES provided by UGS. The administrative boundary and built-up areas were derived from Xiamen geovernment office. Urban park data was extracted from Open Street Map (OSM) ([https://www.openstreetmap.org](https://www.openstreetmap.org%7D)) using QuickOSM plugin in QGIS. We obtained demographic data from the WorldPop Global High-Resolution Population data ([https://www.worldpop.org](https://www.worldpop.org/%7D)) in 2020, in particular,population count and population by age and sex data with constraint top-down method at approximately 100 meter of spatial resolution. The local climate zone (LCZ) data obtained from World Urban Database which represent as standard for characterizing urban landscapes used to studies of urban heat island. In term of urban cooling analysis were obtained local climate zone data provided by World Urban Database and Access Portal Pools [@demuzere2021] and meteorological data from WorldClim. The Normalized Different Vegetation Index (NDVI) and Enhance vegetation Index (EVI) were derived from Sentinel-2 satellite imagery using Google Earth Engine platform. Land cover data obtained from ESA WorldCover product [@zanaga2021] was use to identify urban green space types, including tree, shrub, and grass. The estimated concentration of particulate matter at 2.5 um (PM~2.5~) data was obtained from Tracking Air Pollution in China (TAP, <http://tapdata.org.cn>) [@geng2021; @xiao2021; @xiao2022; @xiao2021a] in 2020. Additionally, we obtained the location of hospitals and health service center from Xiamen Natural Resources and Planning Bureau in 2022. All of the data sources in this study were provided by open data platform.
+
+```{r dataused, warning=FALSE, tab.cap="Data used"}
+
+library(tidyverse)
+library(kableExtra)
+library(knitr)
+
+# change NA's to print as dashed lines
+options(knitr.kable.NA = '-')
+
+dt <- read.csv("E:/ES_Demand_Supply/doc/dataused.csv")
+
+# tibble(dt)
+# print table
+dt_kbl <- kable(dt,
+      booktab = TRUE,
+      format = "latex",
+      position = "h!",
+      caption = "Data used",
+      align = 'c',
+      col.names = c("Name", "Data types", "Spatial Resolution (m)",
+                    "Year", "Source")
+      ) |>
+      kableExtra::kable_styling(
+        position = "center",
+        latex_options="scale_down"
+      ) |> 
+      column_spec(5,
+                  width = "1.2in",
+                  latex_valign = "m")
+
+dt_kbl
+```
+
+## Urban green space classification
+
+Based on the urban green space planning standard of China (GB-T51346-2019) and [@zhou2021a]. We identified urban park land as three main types in urban built areas including, comprehensive park, residential area park, and pocket park based on size (Table \ref{tab:ugsclass}). Moreover, urban parks were identified as publicly owned and freely accessible and excluded placed not located or open for public accessible i.e. amusement park, golf-course, and cemeteries. The methodology employed involved several steps to ensure accuracy and comprehensiveness. First, OSM data were downloaded using the keywords "landuse" and "nature" using QuickOSM plugin in QGIS. Subsequently, we filtered the data to isolate areas designated as parks and forests. Thereafter, these results were cross-referenced with a location database provided by Xiamen City Green Space System Planning report (2021-2035) to correct any mismatches and ensure consistency in park descriptions. Finally, following the urban park classification based on urban green space planning standard, we determined the classification type of urban park based on the size of area and assigned service radius of each urban park with "sf" [@sf_article; @sf_book] and "dplyr" [@dplyr] R packages. Additional, we extracted UGS types, including tree, shrub, and grass based on data provide by ESA WorldCover product [@zanaga2021].
+
+## Ecosystem services indicators selection of supply and demand by UGS
+
+In this study, the criteria to select ES by urban green space based on threes main criteria: 1) relevance with background and policy of Xiamen city; 2) main concern and challenges of urban areas by literature reviews; 3) model and data availability. Among the four ES, UGS provided regulating services were the priority in 90%, followed by cultural services (70%), supporting services (52%), and provisioning services (43%) [@charoenkit2019]. Moreover a comprehensive mapping of ES should include both ecological and cultural services [@li2020]. Thus, we considered most two types of ecosystem services derived from UGS including regulating services and cultural services of urban green space. For regulating services, urban temperature regulating and air purification are the most selected as ES provided by UGS [@baro2015; @graca2017; @demanuel2021; @li2023]. In case of cultural services, recreation services provided by UGS are the main contribution to human health and well-being [@zhu2023]. Additional, outdoor recreation were chooses as recreation services provide by UGS for urban inhabitants. Table \ref{tab:sdind} shown selected indicators of ES both supply and demand. We identified supply as a potential to deliver services based on biophysical and social properties and functions, demand is the amount of a service required or desired by society [@villamagna2013]. Therefore, we selected supply and demand index to covered both ecology and social aspect. This study selected cooling capacity [@zardo2017], PM~2.5~ removal by tree [@nowak2013], and urban nature access [@liu2022] for supply indicators. Then, the demand of UGS were considered by adapted from @li2022, @wang2023 and @aznarez2024 studies that integrated with risk management analysis as a function of hazard, exposure and vulnerability. Thus,demand indicators including, heat vulnerability index [@aznarez2024], PM~2.5~ [@rentschler2023], and green space per capita [@liu2020].
+
+```{r sdind, tab.cap="UGS supply-demand indicators"}
+library(tidyverse)
+library(kableExtra)
+library(knitr)
+library(flextable)
+
+sdi <- read.csv("E:/ES_Demand_Supply/doc/ugs_sd_indicators.csv")
+
+kable(sdi,
+      booktab = TRUE,
+      format = "latex",
+      position = "h!",
+      caption = "UGS supply-demand indicators",
+      align = 'c'
+      ) |>
+      kableExtra::kable_styling(
+        position = "center",
+        latex_options="scale_down"
+      ) |>
+      column_spec(1:3,
+                  width = "1.5in",
+                  latex_valign = "m")
+# flextable(sdi)
+```
+
+## Mapping supply of ecosystem services by UGS
+
+### Cooling capacity
+
+We used Integrated Valuation of Ecosystem Services and Tradeoffs (InVEST V3.13.0) [@invest] and urban cooling model to calculated a heat mitigation index (HMI) proposed by [@zardo2017]. Specifically, estimates cooling capacity (CC) for each pixel in a land cover raster as a linear function of shade, albedo, and evapotranspiration (ETI), specified for each land cover class. Base on model requirement of input parameters must to related with land use or land cover. Our study applied LCZ data represent as characteristics of each land cover type that provides a standardized classification system and widely applicable approach that facilities detailed investigations of urban heat island within cities. Although, we adopted biophysical parameters for each LCZ including shade, albedo, crop coefficient, green area and building intensity based on calculation and other sources. For shade represent as proportion of area in LCZ coverd by tree canopy at least 2 meter height. This data was calculated using the 2020 canopy height map from @lang2022 to created shade of each LCZ in Xiamen City. In case of average albedo and building intensity were applied from @stewart2012 and @du2024, respectively. We keep model default values for crop coefficient and green area [@invest]. For ETI calculation were adopted from @droogers2002 method using weather data provide by WorldClim. Moreover, our study used green area maximum cooling distance effect proposed by @yu2017 by mean values equal to 104 meter. Reference air temperature in rural areas were retrieved by selected the maximum average temperature from the Xiamen meteorological center database on 22 June 2020 (31.1 $^{\circ }C$, the hottest day of 2020). Then, we subtract by the magnitude of the urban heat island effect or the difference between the rural reference temperature and the maximum temperature observed in the city. This value obtained from @chakraborty2019 is 2.6 $^{\circ }C$. Thus, the reference air temperature in rural area as input in the model is 28.5 $^{\circ }C$. Finally, air temperature maximum blending distance or search radius (500 metres) used to account for air mixing. These analyses were conducted using InVEST, version 3.13.0 [@invest] and R, version 4.4.3 [@R-base] with specific packages including "terra" [@terra] for spatial data analysis, and "dplyr" [@dplyr] for data manipulation. The HMI data were aggregated into sub-district with average values and normalized it with range from 0 - 1.
+
+### PM~2.5~ removal by tree
+
+Air pollution in urban areas are the one of main effect to human health and well-being. Particulate matter is a one of the major sources of air pollution. Especially in urban areas has bean found to be related with high intensity of industrial activities, energy emissions and automobile exhaust [@lu2018]. UGS are the one of ecosystem properties provide function to improve the air quality in urban areas [@guo2019a; @cai2020]. Several studies showed UGS play a crucial role in purifying the air by the direct interception and absorption of PM by vegetation through retention, attachment, and adhesion [@nowak2013; @yao2023]. This process of vegetation directly reducing atmospheric PM is call dry composition [@yao2023]. The leaf area index (LAI) are the main contribution of vegetation to reduce PM concentration and vary with wind speed [@escobedo2009]. We applied the method developed by @nowak2013 and @yao2023 to estimated PM~2.5~ reduction as the cumulative time value of the product of the dry deposition flux and total area of vegetation leaves in the region. The calculation is expressed in Eq. \ref{pmreduction}.
+
+\begin{equation} \label{pmreduction}
+    R_{ij} = \sum_{i=1}^{n} \sum_{j=1}^{m} Flux_{ij} \cdot LAI_{ij}
+\end{equation}
+
+Where $R_{ij}$ is the annual cumulative particulate reduction ($g/m_{2}$) in the row ($i^{th}$) and column the ($i^{th}$) pixels on the grid, $Flux_{th}$ represents the dry deposition flux of PM~2.5~ per unit area. The $LAI_{ij}$ obtained from the Eq. \ref{lai}.
+
+\begin{equation} \label{pmremoval}
+    Flux_{ij} = \sum_{i=1}^{n} \sum_{j=1}^{m} V_{d} \cdot Con_{ij} \cdot t \cdot (1-s)
+\end{equation}
+
+Where $Flux_{ij}$ is dry deposition flux of PM~2.5~ in the row ($i^{th}$) and column ($i^{th}$) the pixels on the grid obtained using Eq. \ref{pmremoval}. $V_{d}$ is the deposition velocity of the pollutant to the leaf surface ($m\; s^{-1}$). Based on wind data from WorldClim the annual average wind speed in study areas is 4 ($m\; s^{-1}$). Thus, this study applied $V_{d}$ from @nowak2013 by selected average values is 0.17 represent at wind speed and re-suspension rate ($s$) with 4 ($m\; s^{-1}$) and 6%, respectively. $Con_{ij}$ is annual PM~2.5~ concentration ($ug^{m3}$) in 2020. $t$ represents the cumulative yearly was number of days in a year multiplied by the number of second per day ($365 \cdot 3600 = 1314000$)
+
+\begin{equation} \label{lai}
+    LAI_{ij} = 3.618 * EVI_{ij} - 0.118
+\end{equation}
+
+Where EVI is an "optimal" vegetation index that decouples the canopy background signal and reduces atmospheric impacts to improve the vegetation signal with great sensitivity in high biomass regions and improved vegetation monitoring. We derived EVI from Sentinel-2 imagery in 2020 using Google Earth Engine [@gorelick2017].
+
+### Urban nature access
+
+The concept of cultural ecosystem services (CES) seeks to acknowledge the profound cultural value and significance inherent in ecosystems. By doing so, it promotes a broader conceptualization of how ecosystems contribute to human well-being, encompassing not only material benefits but also intangible cultural dimensions [@fish2016]. @zhu2023 study construct CES indicators and used it to assess CES perception effect based on social feedback data of urban park. The results show that interactive activities are the most popular CES in the park, while the sense of places, social relationship, and educational function lack of receive a wide response. Moreover, there are co-occurrences between CES indicators including interactive activities, aesthetic, and health benefits. Many studies selected proxy indicators of cultural through aesthetics, sense of place, and recreation. Based on survey data in Beijing, most of recreational activities prefer by visitors including sightseeing, jogging, boating, partying, cycling, fishing, and others @sun2019 . Same as @zhu2023 study show interactive activities have the highest occurrence in response. The CES is relevant to the movement of users because the supply of services relies on the existence of people in the ecosystem [@wu2022]. @crouzat2022 found the actual use of CES improved with the integration of the accessibility or easily accessible places. @stewart2018, found that number of park and area were associate with physical activity of urban resident. Thus, we chose urban nature access as the supply index with measure by accessibility to UGS including urban park and urban forest. @liu2021 and @zhang2024 compared method to calculated accessibility assessment models and summarized two-step floating catchment area (2SFCA) that widely adopted and considers both supply and demand as well as integrated distance decay function. However, @delamater2019 compared floating catchment area metrics and founded that the three-step floating catchment area (3SFCA) and modified two-step floating catchment area (M2SFCA) method were the most effective metrics for predicting utilization patterns of hospital visits.
+
+We use InVEST sub-model urban nature access to calculated accessibility to nature for recreation of UGS in Xiamen City. This method integrated nature supply to each population pixel by using 2SFCA improvement not only consider variable catchment sizes, but also consider both supply and demand. A more detail of method are provide in [@liu2022]. The UGS retrieved from section 2.2 represented as all type of green space in urban area. The population number within Xiamen city retrieved from WorldPop. In the first step, the algorithm computes the UGS to population ratio ($R_{j}$) defined as equation \ref{natureacess} by dividing UGS area in pixel j ($S_j$) by population ($Pk$) within search radius of each UGS and Gaussian as a decay function $F(d_{kj})$.
+
+\begin{equation} \label{natureacess}
+    R_j = \frac{S_j}{\sum\limits_{k \in \{d_{kj} \leq d_0\}} p_k \times f(d_{kj})}
+\end{equation}
+
+Where $R_{j}$ is the UGS to population ratio of UGS pixel j; $S_{j}$ is the UGS area in pixel j (m^2^); $p_k$ is the population in pixel k; $d_kj$ is the Euclidean distance between pixel k and j; $d_0$ is the search radius; $f(d_{kj})$ is the decay function describing the decline of services against distance. This study we chose Gaussian function as a decay function.
+
+Then, sums up $R_{j}$ values from UGS pixel within the search radius to calculated UGS supplied to pixel i $Sup_i$ as (\ref{supplyugs}):
+
+\begin{equation} \label{supplyugs}
+    Sup_i = \sum_{j \in \{d_{ij} \leq d_0\}} R_j \times f(d_{ij})
+\end{equation}
+
+Where i is any pixel in the study area; $Sup_{i}$ is the UGS per capita supplied to pixel i (m2/cap); $R_j$ is the UGS-population ratio of a UGS pixel j; $d_{ij}$ is the Euclidean distance between pixel i and j; $d_0$ is the search radius.
+
+In order to understand trade-off or synergy between ES. We assessed the relationship between all supply indicators using Person's correlation analysis.
+
+## Mapping demand of ecosystem services by UGS
+
+### Heat vulnerability index
+
+We assessed temperature regulation demand following @wang2023 and @aznarez2024 by calculate heat vulnerability index ($HVI$) which considered as a function of exposure ($E$), sensitivity ($S$), and adaptive capacity ($A$) as given in Eq \ref{hvi}.
+
+\begin{equation} \label{hvi}
+    HVI = E+S-A
+\end{equation}
+
+For heat exposure (E) refer to the urban population being exposed to high temperature and relate health impact [@aznarez2024] follow as Eq \ref{hex}. To calculated heat exposure, we considered population count ($P$) and thermal index ($Ti$) estimated by air temperature from section urban cooling model as indicators. Ti represented as heat index ($HI$) that combines air temperature ($T$) and relative humidity ($RH$) Eq. \ref{heati} and normalization with selected 27 $^{\circ}C$ as threshold temperature and human health will be affected if HI equal or higher threshold [@blazejczyk2012] given as Eq. \ref{tempi}.
+
+\begin{equation} \label{hex}
+    E = Ti + P
+\end{equation} \begin{equation} \label{heati}
+    \begin{aligned}
+        HI = -8.784695 + 1.61139411 \times T + 2.338549 \times RH - 0.14611605 \times T \\
+        \times RH - 1.2308094 \times 10\textsuperscript{-2} \times T\textsuperscript{2} - 1.6424828 \times 10\textsuperscript{-2} \\
+        \times RH\textsuperscript{2} + 2.211732 \times 10\textsuperscript{-3} \times T\textsuperscript{2} \times RH + 7.2546 \\
+        \times 10\textsuperscript{-4} \times T \times RH\textsuperscript{2} - 3.582 \times 10\textsuperscript{-6} \times T\textsuperscript{2} \times RH\textsuperscript{2}
+    \end{aligned}
+\end{equation} \begin{equation} \label{tempi}
+    \begin{aligned}
+        Ti = 
+        \begin{cases}
+        \phantom{-} \frac{HI - 27}{HI{\max} - 27} & \text{ } HI \geq 27 \\
+        \phantom{-} 0 & \text{ } HI < 27
+        \end{cases}
+    \end{aligned}
+\end{equation}
+
+The calculation of heat sensitivity ($S$), we chosen factors about social group that could sensitive to heat exposure. Consequently, both percentage of population aged $\leq14$ and $\geq65$ both male and female populations [@wang2023; @aznarez2023; @aznarez2024]. The total number of populations in both aged group were calculated for each sub-district and normalized with min-max scaling method. Finally, to map heat adaptive capacity ($A$), one of the major factors widely use is resources accessibility [@li2022; @wang2023; @aznarez2024]. Thus, we examined number of hospital of each sub-district as indicators. By using overlay analysis to count number of hospital in sub-district and further normalized to the 0 - 1.
+
+### PM~2.5~ exposure
+
+Based on ambient air quality standards in China by Ministry of Environmental Protection of the People's Republic of China, 2016 as specific in GB3095-2012. The PM~2.5~ were divided into class 1 and class 2 with two time periods, including annual and 24 hours. The former applied for general areas with limit annual and 24 hour concentration with 15 $\mu g /m^3$ and 35 $\mu g /m^3$, respectively. The latter applied for urban areas with limit annual and 24 hour concentration with 35 $\mu g /m^3$ and 75 $\mu g /m^3$, respectively. As the limit of estimate air pollution concentration (PM~2.5~}) data from the Tracking Air Pollution in China was provided monthly and annually data. Thus, we calculate PM~2.5~ exposure (PM~2.5~ exp) as a number of population density $PopDens$ expose to PM~2.5~ index (PM~2.5~ i) following @rentschler2023 as Eq. \ref{pmexp}. First, PM~2.5~ i was calculated by the reference values from China standard for annual and general areas with 15 $\mu g /m^3$ as threshold given in Eq. \ref{pm25}. Then, aggregate population to sub-district level by total values of population data from WorldPop and calculate population density divide by area of sub-district in hectare. Finally, dimensionless value of both PM~2.5~i and $PopDens$ was normalized in the 0-1 range.
+
+\begin{equation} \label{pmexp}
+    PM\textsubscript{2.5}exp = PM\textsubscript{2.5}i + PopDens
+\end{equation} \begin{equation} \label{pm25}
+    \begin{aligned}
+        PM\textsubscript{2.5}i = 
+        \begin{cases}
+        \phantom{-} \frac{PM - 15}{PM_{\max} - 15} & \text{ } PM \geq 15 \\
+        \phantom{-} 0 & \text{ } PM < 15
+        \end{cases}
+    \end{aligned}
+\end{equation}
+
+### Urban nature access demand
+
+@liu2020 evaluated urban recreation service demand based on per capita UGS metrics aligned with government policy goals. Likewise, the Xiamen municipality has sought to enhance UGS coverage in built-up areas and expand urban park service radius. As we chose urban nature access as a tool to calculated UGS accessibility by population as described in section urban nature access. These tool also provided demand of UGS basde on target goal of user. We followed Xiamen government policy with target UGS per capita equal to 11 m^2^/ person. Thus, by using InVEST urban nature access not only calculated urban nature supply, but also calculate urban nature demand. The urban nature demand derived from equation \ref{demugs}, this measures the amount of accessible urban nature required to adequately supply all population in each pixel.
+
+\begin{equation} \label{demugs}
+    Dem_i = P_i \times g_{cap}
+\end{equation}
+
+Where $Dem_i$ is the required area of urban nature needed by the population residing at pixel $i$ in order to fully satisfy their urban nature needs; $P_i$ is the population per pixel at pixel $i$ ; $g_{cap}$ is the user-defined per capita urban nature requirement (11 $m^2/person$).
+
+## UGS Supply-Demand analysis
+
+## Spatial statistics of supply and demand by UGS
+
+### Mismatches evaluation of UGS supply and demand
+
+To ensure comparability, supply and demand must be expressed in the same unit for meaningful comparison [@burkhard2012]. Thus, we standardized the values of all supply and demand indicators using the normalization method within the range of 0-1. We calculated the difference between supply and demand for each ecosystem service (ES) indicator and aggregated the results across all indicators. We then applied the Bivariate Local Moran's I method to evaluate the correlation between supply and demand. This method was employed to assess the mismatch between the supply and demand of urban green spaces (UGS), as described in Equation \ref{mismatch}.
+
+\begin{equation} \label{mismatch}
+    I_{xy}^i = z_{x}^i \sum_{j}  w_{ij} z_{y}^i, \sum_{j} w_{ij} = 1
+\end{equation}
+
+where $z_{x}^i$ is the standardized value of supply variable x (i.e. HMI) of area i, $z_{y}^i$ is the standardized value of demand variable y (i.e. HVI) of area j, $w_{ij}$ is the spatial weight matrix between area $i$ and $j$. The spatial relationships between supply $i$ and demand $j$ can be categorized into five types: High-High (HH), High-Low (HL), Low-High (LH), Low-Low (LL), and non-significant. HH clusters indicate communities with both high demand (HVI) and high supply (HMI), while LL clusters denote areas with low demand and low supply. HL clusters signify a high supply coupled with a low demand, whereas LH clusters reflect a low supply and a high demand. The non-significant classification indicates that the spatial relationships between supply and demand lack statistical significance. To calculated of $I_{xy}^i$ was conducted utilizing the local-bi-moran function within the rgeoda package [@rgeoda] in the R programming environment.
+
+### Driving factor analysis of ES supply-demand mismatches
+
+Selection driving factors
+
+Geomorphological:
+
+-   dem
+
+-   slope
+
+-   building density
+
+-   building height
+
+Anthropocentric indicators:
+
+-   population number/density
+
+Meteorological indicators:
+
+-   precipitation
+
+-   air temp
+
+UGS factor:
+
+-   \% area of UGS
+
+-   mean patch size of UGS
+
+-   patch density
+
+-   shape index
+
+# Results
+
+## Urban green space classification
+
+Table \ref{tab:urbanpark} demonstrates the number of urban parks and their areas within each district of Xiamen City. The total number of urban parks is 267, with the highest concentrations in Jimei (73 parks), Siming (46 parks), and Xian An (41 parks). However, in terms of park area, Jimei and Siming had the largest extents, at 783 hm² and 657 hm², respectively. Neighborhood parks are the predominant type in most districts, except in Huli, where pocket parks are more common. Figure \ref{fig:ugstypes} illustrates the spatial distribution of urban park classifications by type within the urban built area of Xiamen City. On Xiamen Island, most urban parks are located in the western part of Siming District, with the largest being the botanical garden. In contrast, in Huli District, urban parks are distributed across the entire area. On the mainland, comprehensive parks are concentrated along coastal areas, particularly in Jimei and Tong An districts. In contrast, urban parks in Xian An and Haicang districts are primarily located inland.
+
+```{r ugstypes, fig.show='hold', out.width="40%" , fig.cap='Urban green space', fig.align='center'}
+
+# Library
+library(sf)         # simple features management
+library(tidyverse)  # data science tools
+library(terra)      # spatial data analysis
+library(tidyterra)  # applied common method from tidyverse to SpatRaster & SpatVector
+library(ggspatial)  # spatial data mapping with ggplot2
+library(flextable)
+library(janitor)
+# library(patchwork)
+# library(cowplot)
+
+source("E:/ES_Demand_Supply/code/helper.R") # call function for normalization
+
+# Input directory
+
+in_dir <- "E:/ES_Demand_Supply/data/xiamen/urban_green_space/"
+
+ugs <- vect(paste0(in_dir, "ugs_xiamen_cal.shp"))
+
+# classified ugs based on size
+# Ref: 
+
+ugs_level <- ugs |> 
+  filter(area_ha >= 0.2) |> 
+  mutate(
+    level = case_when(
+      area_ha >= 0.2 & area_ha < 1 ~ "pocket park",
+      area_ha >= 1 & area_ha < 5 ~ "neighborhood park",
+      area_ha >= 5 & area_ha < 10 ~ "community park",
+      area_ha >= 10 & area_ha < 20 ~ "comprehensive park 3",
+      area_ha >= 20 & area_ha <= 50 ~ "comprehensive park 2",
+      area_ha > 50 ~ "comprehensive park 1"
+    ),
+    services = case_when(
+      level == "comprehensive park 1" ~ 5000,
+      level == "comprehensive park 2" ~ 3000,
+      level == "comprehensive park 3" ~ 2000,
+      level == "community park" ~ 1000,
+      level == "neighborhood park" ~ 500,
+      level == "pocket park" ~ 300,
+    ),
+    types = case_match(
+      level,c("comprehensive park 1", "comprehensive park 2",
+              "comprehensive park 3") ~ "comprehensive park", .default = level,
+    )
+  )
+
+ugs_level_prj <- project(ugs_level, "epsg:32650")
+
+
+urban_park_map = ggplot() +
+  geom_spatvector(data = city, fill = NA, color = "grey70") +
+  geom_spatvector(data = ugs_level_prj, aes(fill=types), color = NA) +
+  scale_fill_viridis_d(option = "H", direction = 1) +
+  geom_spatvector(data = built_area, fill = NA, color = "grey60", size = 1) +
+  geom_spatvector(data = built_area_district, fill = NA, color = "black") +
+  geom_spatvector_text(data = built_area_district, aes(label = district),
+                       nudge_x = 0) +
+  
+  # annotation_north_arrow(location = "tr", which_north = "true") +
+  # annotation_scale(style = "ticks", location = "br") +
+  theme_void() +
+  labs(
+    subtitle = "a) urban park",
+    fill = "Urban Park Types"
+  )
+
+# ESA Land use map ----------------------------------------------------------
+
+lulc_xm <- rast("E:/ES_Demand_Supply/data/xiamen/landuse/esa_2021/esa_xiamen_32650.tif")
+
+lulc_xm <- crop(lulc_xm, built_32650, mask=TRUE)
+## plot with ggplot()
+lu <- as.factor(lulc_xm)
+
+esa_cols <- c("#00a000", "#966400", "#ffb400", "#ffff64",
+              "#c31400", "#fff5d7", "#0046c8",
+              "#00dc82", "#009678", "#ffebaf")
+
+lulc_map = ggplot() +
+  geom_spatvector(data = city, fill = NA, color="grey70") +
+  geom_spatraster(data = lu, na.rm = TRUE) +
+  scale_fill_manual(values = esa_cols, na.value = "transparent",
+                    drop = FALSE,
+                    labels = c("Tree cover", "Shrubland", "Grassland",
+                               "Cropland", "Built-up", "Bare / sparse vegetation",
+                               "Permanent water bodies",
+                               "Herbaceous wetland", "Mangroves")
+  ) +
+  labs(subtitle = "b) land use/land cover", 
+       fill = "LULC") +
+  geom_spatvector(data = built_area_district, fill = NA, color = "black") +
+  geom_spatvector_text(data = built_area_district, aes(label = district),
+                       nudge_x = 0) +
+  
+  annotation_north_arrow(location = "tr", which_north = "true") +
+  annotation_scale(style = "ticks", location = "br") +
+  
+  theme_void()
+
+
+# Combine map with patchwork package ----------------------------------------
+# ugs_map = urban_park_map + lulc_map
+# 
+# plot(ugs_map)
+par(mfrow = c(2,1))
+plot(urban_park_map)
+plot(lulc_map)
+
+```
+
+At the district level, the proportion of land cover in Xiamen City is presented in Table \ref{tab:luprop}. The percentage of built-up area ranges from 28.32% in Xian An to 66.26% in Huli. For urban green spaces (UGS), tree area constitutes the main proportion, ranging from 17.88% in Huli to 41.48% in Siming. As illustrated in Figure \ref{fig:ugsprop}, large patches of tree areas are found in Siming, Haicang, Jimei, and Tong An. Grass areas exhibit relatively similar proportions in four districts—Haicang (7.96%), Jimei (8.57%), Tong An (7.35%), and Xian An (9.53%). In contrast, Huli and Siming have significantly lower proportions at 3.95% and 3.68%, respectively. Xian An has a slightly higher crop proportion area (21.89%) compared to tree areas (19.61%).
+
+## UGS supply mapping
+
+### Heat mitigation index
+
+We estimated the HMI for large UGS ($\ge 2$) of Xiamen city using urban cooling model in InVEST. As demonstrated in Figure \ref{fig:es-sup}a, this figure shows the mean HMI values for each sub-district. In Xiamen island, high and very high HMI levels were predominantly found in Siming District, particularly in the Binhai and Kaiyun areas. However, a small area named Zhonghua exhibited a low HMI level. For Huli District, the Huli sub-district exhibited a high HMI level, while the remaining five areas showed low and very low HMI levels, with Dianqian being notably low. On the mainland part of Xiamen, very high HMI levels were only observed in Jimei sub-district, while two areas (Houxi and Qiaoying) showed medium levels, and three areas (Xinglin, Xingbin, and Guankou) exhibited low levels. In Tong An, one area (Xiangpin) had a low HMI level, and the rest were at medium levels. Xian An exhibited a wide range of HMI levels, from very low to high, including one very low-level area (Dadeng), two low-level areas (Maxinag and Xindian), one medium-level area (Xinxu), and one high-level area (Neicuo).
+
+```{r es-sup, fig.show='hold', out.width="40%", fig.cap='UGS supply index', fig.align='center'}
+
+library(ggplot2)
+library(terra)
+library(tidyterra)
+library(tmap)
+library(corrplot)
+library(GGally)
+
+
+source("E:/ES_Demand_Supply/code/helper.R") # call file and function for analysis
+
+sup_es <- rast("E:/ES_Demand_Supply/result/supply_es.tif")
+# Plot to map with ggplot()
+#hmi
+hmi_map <- ggplot() +
+  geom_spatraster(data = sup_es[[1]]) +
+
+  scale_fill_viridis_c(option = "D", trans = "sqrt",
+                       na.value = "transparent") +
+  labs(fill = "HMI",
+       title = "(a)") +
+  geom_spatvector(data = city_32650,
+                  fill = NA,
+                  color = "grey70") +
+  
+  geom_spatvector(data = built_32650,
+                  fill = NA,
+                  colot = "grey50") +
+  
+  geom_spatvector(data = built_area_district,
+                  fill = NA,
+                  color = "black",
+                  lwd = 1) +
+    annotation_scale(
+    location = "br",
+    style = 'ticks'
+                   ) +
+  annotation_north_arrow(
+    location = 'tr'
+  ) +
+  theme_void()
+
+#pm
+pm_map <- ggplot() +
+  geom_spatraster(data = sup_es[[2]]) +
+  
+  scale_fill_viridis_c(option = "D", trans = "sqrt",
+                       na.value = "transparent") +
+  labs(fill = "PM2.5 removal by tree \n(g/m2/year)",
+       title = "(b)"
+       ) +
+  geom_spatvector(data = city_32650,
+                  fill = NA,
+                  color = "grey70") +
+  
+  geom_spatvector(data = built_32650,
+                  fill = NA,
+                  colot = "grey50") +
+  
+  geom_spatvector(data = built_area_district,
+                  fill = NA,
+                  color = "black",
+                  lwd = 1) +
+    annotation_scale(
+    location = "br",
+    style = 'ticks'
+                   ) +
+  annotation_north_arrow(
+    location = 'tr'
+  ) +
+  theme_void()
+
+#nature access
+nai_map <- ggplot() +
+  geom_spatraster(data = sup_es[[3]]) +
+  
+  scale_fill_viridis_c(option = "D", trans = "sqrt",
+                       na.value = "transparent") +
+  labs(fill = "Nature access \nsquare meters/person",
+       title = "(c)"
+       ) +
+  geom_spatvector(data = city_32650,
+                  fill = NA,
+                  color = "grey70") +
+  
+  geom_spatvector(data = built_32650,
+                  fill = NA,
+                  colot = "grey50") +
+  
+  geom_spatvector(data = built_area_district,
+                  fill = NA,
+                  color = "black",
+                  lwd = 1) +
+    annotation_scale(
+    location = "br",
+    style = 'ticks'
+                   ) +
+  annotation_north_arrow(
+    location = 'tr'
+  ) +
+  theme_void()
+
+# Pearson's correlation 
+sup_cor <- layerCor(
+  sup_es,
+  "cor",
+  # w=3,
+  use="pairwise.complete.obs"
+)
+
+# Plot map and correlation
+par(mar = c(2,2, .1, .1))
+plot(hmi_map)
+plot(pm_map)
+plot(nai_map)
+
+corrplot(sup_cor$correlation,
+         method = "circle",
+         add = F,
+         type = "lower",
+         order = "AOE",
+         hclust.method = "average",
+         diag = T,
+         col = COL2('RdBu', 10), # RdBu
+         tl.srt = 0,
+         tl.offset = 1,
+         cl.ratio = 0.2,
+         addCoef.col = "black",
+         number.cex = 0.8,
+         title = "(d)",
+         mar=c(0,0,1,0)
+)
+
+```
+
+### PM2.5 Removal by tree
+
+The normalized values of annual PM~2.5~ removal capacity are presented in Figure \ref{fig:es-sup}b. This study employs an assessment model to calculate the raster layer of PM~2.5~ removal capacity (tonnes/year) for urban green spaces (UGS) in Xiamen City in 2020. Mean removal capacities were computed for each sub-district and grouped into five levels based on the Jenks natural breaks method. In mainland Xiamen, the analysis revealed that most areas exhibit very high or high levels of removal capacity, particularly in Houxi, Dongfu, Xinmin, and Wuxian. Low and very low removal capacity were observed only in two districts: Haicang and Xian An, specifically in the sub-districts of Xiamen Haicang and Dadeng. Additionally, high removal capacity was identified in three areas within Jimei, Tong An, and Xian An districts. In contrast, Haicang district predominantly exhibited medium-level removal capacity, particularly in sub-districts such as Haicang, Xingyin, and Songyu. On Xiamen Island, most areas were classified as low-level removal capacity. However, three sub-districts Lujiang, Wucun, and Jialian in Siming district were primarily categorized as having very low removal capacity. Notably, four sub-districts Gulangyu, Huli, Heshan, and Jinshan were grouped into the high removal capacity category.
+
+### Urban nature access
+
+We calculated the urban nature per capita for all built areas in Xiamen City using urban nature access model. The urban nature per capita values were normalized to range from 0.00 to 1.00. We categorized these values into five levels using the Jenks natural breaks method (see Figure \ref{fig:es-sup}c). The distribution of medium to very high accessibility levels was concentrated at Tong'an and Xian An. Specifically, Wuxian in Tong'an district exhibited very high accessibility to nature, while five other areas had medium to high values. In Jimei district, foure areas (Qiaoying, Jimei, Xinglin, and Xingbin) demonstrated low value, whereas two areas (Guanku and Houxi) had medium value. Within Haicang district one areas (Dongfu) displayed medium accessibility. In Xiang'an, all areas were categorized as medium to high urban nature access. On Xiamen Island, the highest accessibility level was medium, located at Binhai in Siming district. In Huli district, accessibility levels were limited to low and very low, with one areas (Jinshan) classified as low and five areas (Huli, Jiangtou, Heshan, Dianqian, and Xianyu) classified as very low.
+
+Figure \ref{fig:es-sup}d shown the correlation matrix between three supply indicators. The values show synergetic by positive Pearson's correlation between indicators. Specifically, moderate correlation between the HMI and PM2.5 removal, but low correlation among other left.
+
+## UGS demand index mapping
+
+# Appendix. Supplementary materials
+
+Urban parks type based on standard
+
+```{r ugsclass, tab.cap="Urban park classification"}
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+# Urban Park types
+park <- read.csv("E:/ES_Demand_Supply/doc/urban_park.csv")
+
+
+park_kbl = kable(
+  park,
+  booktap = TRUE,
+  col.names = c("Types", "Size (ha)", "Service Radius (m)")
+  ) |> 
+  kable_styling(
+    latex_options = c("striped", "scale_down")
+  )
+
+park_kbl
+```
+
+Urban park type summary
+
+```{r urbanpark, tab.cap="Urban park types based on urban green space planning standard of China (GB-T51346-2019)"}
+library(terra)
+library(knitr)
+library(kableExtra)
+
+upt <- vect("E:/ES_Demand_Supply/result/urban_park_summary.shp")
+
+upt_kbl = upt |> 
+  rename(
+    District = district,
+    Types = types
+  ) |> 
+  group_by(District, Types) |> 
+  summarise(
+    Amount = n(),
+    Area = round(sum(area_ha))
+    ) |> 
+  kable(
+    booktab = TRUE,
+    col.names = c("District", "Types", "Amount", "Area (ha)")
+  ) |> 
+  kable_styling(
+    latex_options = c("striped", "hold_position")
+  ) |> 
+  collapse_rows(1)
+
+upt_kbl
+```
+
+```{r luprop,tab.cap="Land cover proportion in percentage per district"}
+
+library(knitr)
+library(kableExtra)
+
+lulc_prop <- read.csv("E:/ES_Demand_Supply/doc/lulc_prop.csv")
+
+kable(lulc_prop,
+      booktab = TRUE) |> 
+  kable_styling(
+    latex_options = c("striped")
+  )
+```
+
+# References
