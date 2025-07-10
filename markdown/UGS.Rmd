@@ -1,7 +1,6 @@
 ---
 title: "A Framework for Assessing Supply-Demand Mismatches in Urban Green Space"
 author: "Sanwit Iabchoon"
-author: "Shenghui Cui"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
   pdf_document: 
